@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="lib/codemirror.css" />
+    <link rel="stylesheet" href="addon/dialog/dialog.css" />
+    <link rel="stylesheet" href="addon/search/matchesonscrollbar.css" />
+    <link rel="stylesheet" href="addon/hint/show-hint.css" />
+    <script src="lib/codemirror.js"></script>
+    <script src="mode/xml/xml.js"></script>
+    <script src="addon/dialog/dialog.js"></script>
+    <script src="addon/search/searchcursor.js"></script>
+    <script src="addon/search/jumpToLine.js"></script>
+    <script src="addon/search/search.js"></script>
+    <script src="addon/scroll/annotatescrollbar.js"></script>
+    <script src="addon/search/matchesonscrollbar.js"></script>
+    <script src="addon/hint/show-hint.js"></script>
+    <script src="addon/hint/xml-hint.js"></script>
+    
+    
+   <style>
+.button {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 17px;
+  padding: 5px;
+ 
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span.open:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.01s;
+}
+
+.button span.next:after {
+  content: '\23E9';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.01s;
+}
+
+.button span.previous:after {
+  content: '\23EA';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.01s;
+}
+
+
+.button span.replace:after {
+  content: '\2B82';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.01s;
+}
+
+.button span.replaceAll:after {
+  content: '\2B7E';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.01s;
+}
+
+.button span.undo:after {
+  content: '\2B8C';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.01s;
+}
+.button span.redo:after {
+  content: '\2B8E';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.01s;
+}
+.button:hover span {
+  padding-right: 25px;
+}
+
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+</style>
+  </head>
+  <body>
+  <div style="position: right">
+  <button id="search" class="button" style="vertical-align:middle"><span class="open">Open search dialog </span></button>
+  <button id="fprev" class="button" style="vertical-align:middle"><span class="previous">Previous </span></button>
+  <button id="fnext" class="button" style="vertical-align:middle"><span class="next">Next </span></button>
+
+  <button id="replace" class="button" style="vertical-align:middle"><span class="replace">Replace </span></button>
+  <button id="replall" class="button" style="vertical-align:middle"><span class="replaceAll">Replace all </span></button>
+  <button id="undo" class="button" style="vertical-align:middle"><span class="undo">Undo </span></button>
+  <button id="redo" class="button" style="vertical-align:middle"><span class="redo">Redo </span></button>
+  
+ </div>
+  <textarea id="code" role="content"></textarea>
+  
+    <form>
+    <br>
+    <br>
+    <br>
+      <div class="CodeMirror cm-s-default CodeMirror-focused"> </div>
+      
+    </form>
+    <script>
+      var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        lineNumbers: true,
+        matchBrackets: true,
+        mode: { name: "xml", alignCDATA: false },
+      });
+      var btnsearch = document.getElementById('search'),
+      fnext = document.getElementById('fnext'),
+      fprev = document.getElementById('fprev'),
+      repl = document.getElementById('replace'),
+      replall = document.getElementById('replall'),
+      goto = document.getElementById('goto'),
+      undo = document.getElementById('undo'),
+      redo = document.getElementById('redo');
+
+    btnsearch.addEventListener('click', function() {
+      CodeMirror.commands.find(editor);
+    }, false);
+    fnext.addEventListener('click', function() {
+      CodeMirror.commands.findNext(editor);
+    }, false);
+    fprev.addEventListener('click', function() {
+      CodeMirror.commands.findPrev(editor);
+    }, false);
+    repl.addEventListener('click', function() {
+      CodeMirror.commands.replace(editor);
+    }, false);
+    replall.addEventListener('click', function() {
+      CodeMirror.commands.replaceAll(editor);
+    }, false);
+    goto.addEventListener('click', function() {
+      CodeMirror.commands.jumpToLine(editor);
+    }, false);
+    undo.addEventListener('click', function(){
+    	editor.undo();
+    }, false);
+    redo.addEventListener('click', function(){
+    	editor.redo();
+    },false);
+
+    </script>
+  </body>
+</html>
